@@ -3,24 +3,24 @@ version: "3.8"
 services:
   frontend:
     build:
-      context: .
-      dockerfile: frontend/Dockerfile
+      context: ./criti-cloud-front
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000" # Port na hoście -> Port kontenera (frontend)
+      - "3000:3000"
     networks:
-      - app-network # Ustawienie wspólnej sieci
+      - app-network
     depends_on:
-      - backend # Zapewnienie, że backend będzie działał przed frontendem
+      - backend
 
   backend:
     build:
-      context: .
-      dockerfile: backend/Dockerfile
+      context: ./criti-cloud-back
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080" # Port na hoście -> Port kontenera (backend)
+      - "8080:8080"
     networks:
-      - app-network # Wspólna sieć, dzięki której frontend będzie widział backend
+      - app-network
 
 networks:
   app-network:
-    driver: bridge # Użycie domyślnej sieci bridge
+    driver: bridge
