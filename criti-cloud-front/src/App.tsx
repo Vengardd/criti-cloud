@@ -1,21 +1,19 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Movies from "./pages/Movies";
 
 function App() {
-  const [response, setResponse] = useState<string>("");
-
-  useEffect(() => {
-    fetch("http://localhost:8080/test")
-      .then((res) => res.text())
-      .then((text) => setResponse(text))
-      .catch((err) => console.error(err));
-  }, []);
-
-  console.log(response);
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <pre>{response ? response : "Czekam na odpowiedź..."}</pre>
-    </div>
+    <Router>
+      <nav>
+        <Link to="/">Movies</Link>
+        {/* | <Link to="/about">About</Link> */}
+      </nav>
+
+      <Routes>
+        <Route path="/" element={<Movies />} />
+        {/* <Route path="/about" element={<About />} /> */}
+      </Routes>
+    </Router>
   );
 }
 
