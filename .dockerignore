@@ -1,0 +1,28 @@
+# Ignoruj pliki i foldery, które nie są potrzebne w obrazie
+
+# Ignorowanie folderu node_modules w frontendzie
+criti-cloud-front/node_modules
+
+# Ignorowanie folderu build (np. dla Reacta)
+criti-cloud-front/build
+
+# Ignorowanie plików tymczasowych
+*.log
+*.tmp
+
+# Ignorowanie folderu .git (żeby nie kopiować historii Gita do obrazu)
+.git
+
+# Ignorowanie pliku .env
+.env
+
+# Ignorowanie IDE i konfiguracji edytora (np. VSCode)
+.vscode
+.idea
+
+# Ignorowanie plików testowych
+criti-cloud-front/tests
+criti-cloud-back/tests
+
+# Ignorowanie plików kompilacji backendu (np. JAR)
+criti-cloud-back/target

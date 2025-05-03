@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "3000:3000" # Port na hoście -> Port kontenera (frontend)
+    networks:
+      - app-network # Ustawienie wspólnej sieci
+    depends_on:
+      - backend # Zapewnienie, że backend będzie działał przed frontendem
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8080:8080" # Port na hoście -> Port kontenera (backend)
+    networks:
+      - app-network # Wspólna sieć, dzięki której frontend będzie widział backend
+
+networks:
+  app-network:
+    driver: bridge # Użycie domyślnej sieci bridge
