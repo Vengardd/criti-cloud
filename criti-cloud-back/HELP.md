@@ -1,3 +1,15 @@
+# Start
+
+Common commands:
+```
+// run postgresql container:
+docker run --name postgres-local -p 5499:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres -d postgres:17.4
+// run pgadmin container:
+docker run --name pgadmin-local -p 5050:80 -e PGADMIN_DEFAULT_EMAIL=admin@admin.com -e PGADMIN_DEFAULT_PASSWORD=admin -d dpage/pgadmin4
+// connect with psql 
+psql -U postgres -p 5499 -h localhost
+```
+
 # Read Me First
 The following was discovered as part of building this project:
 
@@ -13,7 +25,6 @@ For further reference, please consider the following sections:
 * [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/3.4.5/gradle-plugin)
 * [Create an OCI image](https://docs.spring.io/spring-boot/3.4.5/gradle-plugin/packaging-oci-image.html)
 * [GraalVM Native Image Support](https://docs.spring.io/spring-boot/3.4.5/reference/packaging/native-image/introducing-graalvm-native-images.html)
-* [Spring Modulith](https://docs.spring.io/spring-modulith/reference/)
 * [Spring Boot DevTools](https://docs.spring.io/spring-boot/3.4.5/reference/using/devtools.html)
 * [Spring Configuration Processor](https://docs.spring.io/spring-boot/3.4.5/specification/configuration-metadata/annotation-processor.html)
 * [Docker Compose Support](https://docs.spring.io/spring-boot/3.4.5/reference/features/dev-services.html#features.dev-services.docker-compose)
