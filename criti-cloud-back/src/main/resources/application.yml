@@ -1,0 +1,12 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: criti-cloud-back
+  datasource:
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5499/postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
