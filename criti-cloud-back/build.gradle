@@ -28,12 +28,32 @@ ext {
 	set('springModulithVersion', "1.3.5")
 }
 
+sourceSets {
+	testIntegration {
+		java.srcDir "$projectDir/src/testIntegration/java"
+		resources.srcDir "$projectDir/src/testIntegration/resources"
+		compileClasspath += main.output + test.output
+		runtimeClasspath += main.output + test.output
+	}
+}
+
+configurations {
+	testIntegrationImplementation.extendsFrom testImplementation
+	testIntegrationRuntime.extendsFrom testRuntime
+}
+
+tasks.register('integrationTest', Test) {
+	testClassesDirs = sourceSets.testIntegration.output.classesDirs
+	classpath = sourceSets.testIntegration.runtimeClasspath
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.4.5'
 	implementation 'org.flywaydb:flyway-core'
 	implementation 'org.flywaydb:flyway-database-postgresql'
+	implementation 'org.apache.commons:commons-lang3'
 
 	compileOnly 'org.projectlombok:lombok'
 
@@ -43,11 +63,22 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.rest-assured:rest-assured'
+	testImplementation 'org.testcontainers:postgresql'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation 'org.postgresql:postgresql'
+
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testRuntimeOnly 'org.postgresql:postgresql'
 
 	runtimeOnly 'org.postgresql:postgresql'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named('integrationTest') {
+	useJUnitPlatform()
+	maxParallelForks = 1
 }
