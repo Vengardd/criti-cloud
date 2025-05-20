@@ -1,9 +1,6 @@
 package com.krajust.criti_cloud_back.media;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -11,9 +8,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
+@ToString
 public class MediaDTO {
 
     public UUID id;
     public String name;
+    public DetailsType detailsType;
+    public UUID detailsId;
 
 }
