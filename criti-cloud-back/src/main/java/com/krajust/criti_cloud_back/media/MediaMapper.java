@@ -5,7 +5,7 @@ import java.util.List;
 public class MediaMapper {
 
     public static MediaDTO fromEntity(Media media) {
-        return new MediaDTO(media.id, media.name);
+        return new MediaDTO(media.id, media.name, media.detailsType, media.detailsId);
     }
 
     public static List<MediaDTO> fromEntities(List<Media> mediaList) {
@@ -13,7 +13,7 @@ public class MediaMapper {
     }
 
     public static Media toEntity(MediaDTO mediaDTO) {
-        return new Media(mediaDTO.id, mediaDTO.name);
+        return new Media(mediaDTO.id, mediaDTO.name, mediaDTO.detailsType, mediaDTO.detailsId);
     }
 
     public static List<Media> toEntities(List<MediaDTO> mediaDTOS) {

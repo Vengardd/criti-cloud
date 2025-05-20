@@ -15,20 +15,25 @@ import org.springframework.http.HttpStatusCode;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
+import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MediaControllerSpec extends CritiCloudBackApplicationIntegrationTest {
 
     static UUID mediaId;
-    private final String MEDIA_NAME = "randomName";
+    static String mediaName = "randomName";
+    static DetailsType detailsType = DetailsType.MOVIE;
+    static UUID detailsId = randomUUID();
 
     @Test
     @Order(1)
     public void add_media() throws JSONException, JsonProcessingException {
         // given
         var mediaJson = new JSONObject();
-        mediaJson.put("name", MEDIA_NAME);
+        mediaJson.put("name", mediaName);
+        mediaJson.put("detailsType", detailsType);
+        mediaJson.put("detailsId", detailsId);
         HttpEntity<String> request = new HttpEntity<>(mediaJson.toString(), headers);
 
         // when
@@ -58,7 +63,7 @@ public class MediaControllerSpec extends CritiCloudBackApplicationIntegrationTes
                 .extract()
                 .as(MediaDTO[].class);
         assertThat(result).hasSize(1);
-        assertThat(result[0]).isEqualTo(new MediaDTO(mediaId, MEDIA_NAME));
+        assertThat(result[0]).isEqualTo(new MediaDTO(mediaId, mediaName, detailsType, detailsId));
     }
 
     @Test
@@ -77,7 +82,7 @@ public class MediaControllerSpec extends CritiCloudBackApplicationIntegrationTes
                 .statusCode(200)
                 .extract()
                 .as(MediaDTO.class);
-        assertThat(result).isEqualTo(new MediaDTO(mediaId, MEDIA_NAME));
+        assertThat(result).isEqualTo(new MediaDTO(mediaId, mediaName, detailsType, detailsId));
     }
 
 }
