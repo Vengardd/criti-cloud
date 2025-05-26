@@ -4,12 +4,12 @@ import java.util.List;
 
 public class MediaMapper {
 
-    public static MediaDTO fromEntity(Media media) {
+    public static MediaDTO toDTO(Media media) {
         return new MediaDTO(media.id, media.name, media.detailsType, media.detailsId);
     }
 
-    public static List<MediaDTO> fromEntities(List<Media> mediaList) {
-        return mediaList.stream().map(MediaMapper::fromEntity).toList();
+    public static List<MediaDTO> toDTOs(List<Media> mediaList) {
+        return mediaList.stream().map(MediaMapper::toDTO).toList();
     }
 
     public static Media toEntity(MediaDTO mediaDTO) {

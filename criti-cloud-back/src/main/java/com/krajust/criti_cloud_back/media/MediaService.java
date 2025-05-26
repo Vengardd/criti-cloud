@@ -21,14 +21,14 @@ public class MediaService {
     }
 
     public List<MediaDTO> findAllMedia() {
-        return fromEntities(mediaRepository.findAll());
+        return toDTOs(mediaRepository.findAll());
     }
 
     public MediaDTO save(MediaDTO mediaDTO) {
-        return fromEntity(mediaRepository.save(toEntity(mediaDTO)));
+        return toDTO(mediaRepository.save(toEntity(mediaDTO)));
     }
 
     public MediaDTO getById(UUID id) {
-        return fromEntity(mediaRepository.findById(id).orElseThrow(() -> new EntityNotExists(MEDIA, id)));
+        return toDTO(mediaRepository.findById(id).orElseThrow(() -> new EntityNotExists(MEDIA, id)));
     }
 }
