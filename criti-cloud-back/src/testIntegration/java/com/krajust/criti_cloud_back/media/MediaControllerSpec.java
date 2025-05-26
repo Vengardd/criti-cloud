@@ -78,7 +78,7 @@ public class MediaControllerSpec extends CritiCloudBackApplicationIntegrationTes
                 .get("/media/" + mediaId);
 
         // then
-        MediaDTO result = when.then()
+        var result = when.then()
                 .statusCode(200)
                 .extract()
                 .as(MediaDTO.class);
