@@ -7,12 +7,22 @@ import java.util.UUID;
 public class EntityNotExists extends RuntimeException{
 
     private EntityType entityType;
-    private UUID id;
+    private String id;
+    private EntityNotExistsIdType idType;
 
-    public EntityNotExists(EntityType entityType, UUID id) {
-        super("Entity " + entityType + " with id: " + id + " not found");
+    public EntityNotExists(EntityType entityType, String id, EntityNotExistsIdType idType) {
+        super("Entity " + entityType + " with id: " + id + " of type: " + idType + " not found");
         this.entityType = entityType;
         this.id = id;
+        this.idType = idType;
+    }
+
+    public EntityNotExists(EntityType entityType, String id) {
+        this(entityType, id, EntityNotExistsIdType.ID);
+    }
+
+    public EntityNotExists(EntityType entityType, UUID id) {
+        this(entityType, id.toString(), EntityNotExistsIdType.ID);
     }
 
 }

@@ -11,4 +11,6 @@ public interface MediaRepository {
     Media save(Media media);
 
     Optional<Media> findById(UUID id);
+
+    List<Media> findAllByNameContains(String name);
 }

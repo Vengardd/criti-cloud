@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/movies",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-)
+@RequestMapping(path = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MovieController {
 
     private final MovieService movieService;
@@ -25,14 +25,23 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping()
+    public List<MovieDTO> getAll() {
+        return movieService.findAll();
+    }
+
+    @GetMapping(value = "/{id}")
     public MovieDTO getById(@PathVariable UUID id) {
         return movieService.getById(id);
     }
 
-    @PostMapping
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public MovieDTO addMovie(@RequestBody MovieDTO movie) {
         return movieService.save(movie);
     }
 
+    @GetMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Collection<MovieDTO> search(@RequestBody MovieSearchDTO searchDTO) {
+        return movieService.search(searchDTO);
+    }
 }

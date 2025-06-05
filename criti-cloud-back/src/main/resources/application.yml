@@ -10,3 +10,19 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+integration:
+  ombd:
+    url: http://www.omdbapi.com
+    api-key: ${ombd.api-key}
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: TRACE
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+org:
+  gradle:
+    jvmargs=--enable-native-access=ALL-UNNAMED:

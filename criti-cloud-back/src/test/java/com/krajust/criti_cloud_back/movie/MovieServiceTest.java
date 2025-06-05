@@ -7,14 +7,17 @@ import org.junit.jupiter.api.Test;
 
 import static com.krajust.criti_cloud_back.movie.MovieMapper.toEntity;
 import static java.util.UUID.randomUUID;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class MovieServiceTest implements MovieTestData {
 
     private final MovieSpringRepository movieRepository = mock(MovieSpringRepository.class);
     private final MediaService mediaService = mock(MediaService.class);
+    private final MovieProviderService movieProviderService = mock(MovieProviderService.class);
 
-    MovieService movieService = new MovieService(movieRepository, mediaService);
+    MovieService movieService = new MovieService(movieRepository, mediaService, movieProviderService);
 
     @Test
     void adds_new_movie_and_creates_media() {
@@ -29,12 +32,12 @@ class MovieServiceTest implements MovieTestData {
         var result = movieService.save(movie);
 
         // then
-         verify(movieRepository).save(movieEntity);
-         var mediaToBeSaved = MediaDTO.builder()
-                 .name(result.title)
-                 .detailsType(DetailsType.MOVIE)
-                 .detailsId(result.id)
-                 .build();
-         verify(mediaService).save(mediaToBeSaved);
+        verify(movieRepository).save(movieEntity);
+        var mediaToBeSaved = MediaDTO.builder()
+                .name(result.title)
+                .detailsType(DetailsType.MOVIE)
+                .detailsId(result.id)
+                .build();
+        verify(mediaService).save(mediaToBeSaved);
     }
 }
