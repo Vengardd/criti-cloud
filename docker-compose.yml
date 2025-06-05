@@ -1,16 +1,16 @@
 version: "3.8"
 
 services:
-  frontend:
-    build:
-      context: ./criti-cloud-front
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    networks:
-      - app-network
-    depends_on:
-      - backend
+  # frontend:
+  #   build:
+  #     context: ./criti-cloud-front
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   networks:
+  #     - app-network
+  #   depends_on:
+  #     - backend
 
   backend:
     build:
