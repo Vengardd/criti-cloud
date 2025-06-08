@@ -1,7 +1,5 @@
-<script setup lang="ts">
-import HelloWorld from "./components/HelloWorld.vue";
-</script>
-
 <template>
-  <router-view />
+  <div class="h-full flex flex-col">
+    <router-view />
+  </div>
 </template>

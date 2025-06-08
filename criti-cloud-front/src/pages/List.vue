@@ -25,29 +25,30 @@ const { data, isLoading } = useQuery({
 });
 </script> -->
 <template>
-  <div class="p-4 mx-auto">
-    <h1 class="text-2xl font-bold mb-4">Lista gier</h1>
+  <div class="p-4 max-w-md mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Lista filmów</h1>
 
     <div v-if="isLoading" class="text-center py-10">Ładowanie...</div>
 
-    <ul v-else class="space-y-4 max-h-[400px] overflow-y-auto pb-4">
-      <li
-        v-for="item in data"
-        :key="item.mediaId"
-        class="flex space-x-4 py-4 ps-4 border rounded shadow-sm hover:shadow-md transition"
-      >
+    <ul v-else class="space-y-4 overflow-y-auto pb-4">
+      <li v-for="item in data" :key="item.mediaId" class="flex space-x-4">
         <div
           class="bg-gray-300 flex items-center justify-center rounded overflow-hidden flex-shrink-0"
         >
           <!-- Placeholder obrazka -->
-          <span class="text-gray-600 select-none">Image</span>
-          <!-- Gdy będziesz mieć mediaImage, to użyj <img :src="item.mediaImage" alt="..." /> -->
+          <img :src="item.imgUrl" width="100px" />
         </div>
 
-        <div class="flex flex-col justify-center">
-          <h2 class="font-semibold text-lg">{{ item.mediaName }}</h2>
-          <p class="text-gray-600 text-sm truncate max-w-xs">
+        <div class="flex flex-col ms-4">
+          <h2 class="font-semibold text-lg mb-3">{{ item.mediaName }}</h2>
+          <p
+            v-if="item.mediaDescription"
+            class="text-gray-600 text-sm line-clamp-5 max-w-md"
+          >
             {{ item.mediaDescription }}
+          </p>
+          <p v-else class="text-gray-600 text-sm line-clamp-5 max-w-md">
+            Opis dla tego filmu nie jest dostępny.
           </p>
         </div>
       </li>
@@ -72,37 +73,43 @@ interface GameItem {
 const data = ref<GameItem[]>([
   {
     mediaId: 1,
-    mediaName: "Gra 1",
-    detailsType: "game",
+    mediaName: "Gra o tron",
+    detailsType: "movie",
     detailsId: 101,
     mediaImage: null,
-    mediaDescription: "Krótki opis gry numer 1",
+    mediaDescription: "Krótki opis filmu",
+    imgUrl:
+      "https://m.media-amazon.com/images/M/MV5BNGYxOGJkMjItZjVkZC00OGEzLWExNjktOTZmNGZhZmRlMTk2XkEyXkFqcGc@._V1_.jpg",
   },
   {
     mediaId: 2,
-    mediaName: "Gra 2",
-    detailsType: "game",
+    mediaName: "Incepcja",
+    detailsType: "movie",
     detailsId: 102,
     mediaImage: null,
     mediaDescription:
-      "Krótki opis gry numer 2 z dłuższym tekstem, który powinien się ładnie przycinać.",
+      "Krótki opis filmu Incepcja z dłuższym tekstem, który powinien się ładnie przycinać.",
+    imgUrl:
+      "https://m.media-amazon.com/images/M/MV5BZjhkNjM0ZTMtNGM5MC00ZTQ3LTk3YmYtZTkzYzdiNWE0ZTA2XkEyXkFqcGc@._V1_.jpg",
   },
   {
     mediaId: 3,
-    mediaName: "Gra 3",
-    detailsType: "game",
+    mediaName: "Interstellar",
+    detailsType: "movie",
     detailsId: 103,
     mediaImage: null,
-    mediaDescription: "Opis gry numer 3",
+    mediaDescription: "Opis filmu Interstellar z krótkim tekstem.",
+    imgUrl: "https://fwcdn.pl/fpo/56/29/375629/7670122_2.5.jpg",
   },
   {
     mediaId: 4,
-    mediaName: "Gra 2",
-    detailsType: "game",
+    mediaName: "Teściowie",
+    detailsType: "movie",
     detailsId: 102,
     mediaImage: null,
-    mediaDescription:
-      "Krótki opis gry numer 2 z dłuższym tekstem, który powinien się ładnie przycinać.",
+    mediaDescription: "",
+    imgUrl:
+      "https://m.media-amazon.com/images/M/MV5BY2I1N2QyOTktNjRhNi00MThiLWFhYTYtZjcwYzBkN2ZiZjU1XkEyXkFqcGc@._V1_.jpg",
   },
 ]);
 
