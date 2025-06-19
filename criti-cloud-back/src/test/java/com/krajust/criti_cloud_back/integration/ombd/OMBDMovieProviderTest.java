@@ -69,13 +69,13 @@ class OMBDMovieProviderTest implements MovieTestData {
         var movies = movieProvider.searchByTitle(title);
 
         // then
-        assertThat(movies).hasSize(1).isSameAs(List.of(MediaDTO.builder()
+        assertThat(movies).hasSize(1).containsExactly(MediaDTO.builder()
                 .name(title)
                 .posterUrl(posterUrl)
                 .detailsType(MOVIE)
                 .externalIdType(IMBD_ID)
                 .externalId(imbdId)
-                .build()));
+                .build());
     }
 
 }

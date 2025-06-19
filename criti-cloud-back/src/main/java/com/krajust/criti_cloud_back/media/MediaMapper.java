@@ -1,8 +1,6 @@
 package com.krajust.criti_cloud_back.media;
 
-import com.krajust.criti_cloud_back.common.entity.EntityExternalIdType;
 import com.krajust.criti_cloud_back.integration.ombd.OMBDSingleShortMovieResponse;
-import com.krajust.criti_cloud_back.movie.MovieDTO;
 
 import java.util.List;
 
