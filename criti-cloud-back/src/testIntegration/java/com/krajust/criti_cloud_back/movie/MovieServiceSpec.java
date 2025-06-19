@@ -21,7 +21,6 @@ public class MovieServiceSpec extends CritiCloudBackApplicationIntegrationTest i
 
         // then
         assertThat(result).isEqualTo(movie.id(result.id).build());
-
     }
 
 }

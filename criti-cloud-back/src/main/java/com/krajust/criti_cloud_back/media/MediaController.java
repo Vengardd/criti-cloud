@@ -1,24 +1,27 @@
 package com.krajust.criti_cloud_back.media;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import com.krajust.criti_cloud_back.search.SearchDTO;
+import com.krajust.criti_cloud_back.search.SearchService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(path = "/media",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-)
+@RequestMapping(path = "/media")
 public class MediaController {
 
     private final MediaService mediaService;
+    private final SearchService searchService;
 
-    @Autowired
-    public MediaController(MediaService mediaService) {
+    public MediaController(MediaService mediaService, SearchService searchService) {
         this.mediaService = mediaService;
+        this.searchService = searchService;
     }
 
     @GetMapping
@@ -34,6 +37,11 @@ public class MediaController {
     @PostMapping
     public MediaDTO addMedia(@RequestBody MediaDTO media) {
         return mediaService.save(media);
+    }
+
+    @GetMapping("/search")
+    public List<MediaDTO> search(@RequestBody SearchDTO searchDTO) {
+        return searchService.search(searchDTO);
     }
 
 }

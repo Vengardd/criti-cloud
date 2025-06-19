@@ -31,7 +31,7 @@ public class MediaControllerSpec extends CritiCloudBackApplicationIntegrationTes
     public void add_media() throws JSONException, JsonProcessingException {
         // given
         var mediaJson = new JSONObject();
-        mediaJson.put("name", mediaName);
+        mediaJson.put("title", mediaName);
         mediaJson.put("detailsType", detailsType);
         mediaJson.put("detailsId", detailsId);
         HttpEntity<String> request = new HttpEntity<>(mediaJson.toString(), headers);

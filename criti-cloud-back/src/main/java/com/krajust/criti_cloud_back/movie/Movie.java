@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     public UUID id;
     @Column(nullable = false)
     public String title;

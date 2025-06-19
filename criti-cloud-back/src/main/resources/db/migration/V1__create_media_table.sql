@@ -1,9 +1,12 @@
 CREATE TABLE media
 (
-    id          UUID    NOT NULL,
-    name        text    NOT NULL,
+    id                  UUID    NOT NULL,
+    name                text    NOT NULL,
     details_type        text    NOT NULL,
-    details_id  UUID    NOT NULL,
+    details_id          UUID    NOT NULL,
+    poster_url          text,
+    external_id_type    text,
+    external_id         text,
     CONSTRAINT media_pk PRIMARY KEY (id)
 );
 
