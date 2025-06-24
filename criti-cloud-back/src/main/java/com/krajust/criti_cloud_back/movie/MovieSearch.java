@@ -4,10 +4,10 @@ import com.krajust.criti_cloud_back.search.SearchDTO;
 import lombok.Builder;
 
 @Builder
-public record MovieSearchDTO(String imbdId, String name) {
+public record MovieSearch(String imbdId, String name) {
 
-    public static MovieSearchDTO fromMediaSearchDTO(SearchDTO searchDTO) {
-        return MovieSearchDTO.builder()
+    public static MovieSearch fromMediaSearchDTO(SearchDTO searchDTO) {
+        return MovieSearch.builder()
                 .name(searchDTO.title())
                 .build();
     }

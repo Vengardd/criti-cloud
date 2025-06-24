@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,11 +25,6 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    @GetMapping()
-    public List<MovieDTO> getAll() {
-        return movieService.findAll();
-    }
-
     @GetMapping(value = "/{id}")
     public MovieDTO getById(@PathVariable UUID id) {
         return movieService.getById(id);
@@ -41,7 +36,16 @@ public class MovieController {
     }
 
     @GetMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Collection<MovieDTO> search(@RequestBody MovieSearchDTO searchDTO) {
+    public Collection<MovieDTO> search(
+            @RequestParam(required = false) String imbdId,
+            @RequestParam(required = false) String name) {
+        if (imbdId == null && name == null) {
+            return movieService.findAll();
+        }
+        final var searchDTO = MovieSearch.builder()
+                .imbdId(imbdId)
+                .name(name)
+                .build();
         return movieService.search(searchDTO);
     }
 }
