@@ -61,9 +61,9 @@ class OMBDMovieProviderTest implements MovieTestData {
     @Test
     void fetches_all_by_name() {
         // given
-        var singleShortMovie = new OMBDSingleShortMovieResponse(title, year, imbdId, "movie", posterUrl);
+        var singleShortMovie = new OMBDSingleShortMovieResponse(title, Integer.toString(year), imbdId, "movie", posterUrl);
         when(restTemplate.getForEntity(ombdUrl + "/?apiKey=" + ombdApiKey + "&s=" + title, OMBDMultiMovieResponse.class))
-                .thenReturn(new ResponseEntity<>(new OMBDMultiMovieResponse(List.of(singleShortMovie)), OK));
+                .thenReturn(new ResponseEntity<>(new OMBDMultiMovieResponse(List.of(singleShortMovie), 1, "True"), OK));
 
         // when
         var movies = movieProvider.searchByTitle(title);

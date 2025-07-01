@@ -38,9 +38,9 @@ public class MediaController {
 
     @GetMapping
     public List<MediaDTO> search(@RequestParam(required = false) MediaType type,
-                                 @RequestParam(required = false) Boolean external,
+                                 @RequestParam(required = false, defaultValue = "false") Boolean external,
                                  @RequestParam(required = false) String title) {
-        if (type == null && external == null && title == null) {
+        if (type == null && !external  && title == null) {
             return mediaService.findAllMedia();
         }
         final var searchDTO = SearchDTO.builder()

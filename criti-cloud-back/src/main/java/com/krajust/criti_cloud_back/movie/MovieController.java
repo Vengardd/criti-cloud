@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -35,7 +34,7 @@ public class MovieController {
         return movieService.save(movie);
     }
 
-    @GetMapping(value = "/search", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<MovieDTO> search(
             @RequestParam(required = false) String imbdId,
             @RequestParam(required = false) String name) {
