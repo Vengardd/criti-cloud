@@ -31,7 +31,7 @@ public class MediaControllerSpec extends CritiCloudBackApplicationIntegrationTes
     public void add_media() throws JSONException, JsonProcessingException {
         // given
         var mediaJson = new JSONObject();
-        mediaJson.put("title", mediaName);
+        mediaJson.put("name", mediaName);
         mediaJson.put("detailsType", detailsType);
         mediaJson.put("detailsId", detailsId);
         HttpEntity<String> request = new HttpEntity<>(mediaJson.toString(), headers);
@@ -63,7 +63,12 @@ public class MediaControllerSpec extends CritiCloudBackApplicationIntegrationTes
                 .extract()
                 .as(MediaDTO[].class);
         assertThat(result).hasSize(1);
-        assertThat(result[0]).isEqualTo(new MediaDTO(mediaId, mediaName, detailsType, detailsId));
+        assertThat(result[0]).isEqualTo(MediaDTO.builder()
+                .id(mediaId)
+                .name(mediaName)
+                .detailsType(detailsType)
+                .detailsId(detailsId)
+                .build());
     }
 
     @Test
@@ -82,7 +87,12 @@ public class MediaControllerSpec extends CritiCloudBackApplicationIntegrationTes
                 .statusCode(200)
                 .extract()
                 .as(MediaDTO.class);
-        assertThat(result).isEqualTo(new MediaDTO(mediaId, mediaName, detailsType, detailsId));
+        assertThat(result).isEqualTo(MediaDTO.builder()
+                .id(mediaId)
+                .name(mediaName)
+                .detailsType(detailsType)
+                .detailsId(detailsId)
+                .build());
     }
 
 }

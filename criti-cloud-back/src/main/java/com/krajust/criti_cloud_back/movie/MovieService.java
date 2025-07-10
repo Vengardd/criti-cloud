@@ -5,15 +5,12 @@ import com.krajust.criti_cloud_back.common.exception.EntityNotExistsIdType;
 import com.krajust.criti_cloud_back.media.DetailsType;
 import com.krajust.criti_cloud_back.media.MediaDTO;
 import com.krajust.criti_cloud_back.media.MediaService;
-import lombok.extern.java.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,7 +39,7 @@ public class MovieService {
         return toDTO(movieRepository.findById(id).orElseThrow(() -> new EntityNotExists(MOVIE, id)));
     }
 
-    public Collection<MovieDTO> search(MovieSearchDTO searchDTO) {
+    public Collection<MovieDTO> search(MovieSearch searchDTO) {
         if (searchDTO.imbdId() != null) {
             return List.of(searchByIMBDId(searchDTO.imbdId()));
         }

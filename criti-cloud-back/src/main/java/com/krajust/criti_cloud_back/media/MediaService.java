@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.krajust.criti_cloud_back.common.entity.EntityType.MEDIA;
@@ -28,6 +29,10 @@ public class MediaService {
 
     public MediaDTO save(MediaDTO mediaDTO) {
         return toDTO(mediaRepository.save(toEntity(mediaDTO)));
+    }
+
+    public Optional<MediaDTO> findById(UUID id) {
+        return mediaRepository.findById(id).map(MediaMapper::toDTO);
     }
 
     public MediaDTO getById(UUID id) {

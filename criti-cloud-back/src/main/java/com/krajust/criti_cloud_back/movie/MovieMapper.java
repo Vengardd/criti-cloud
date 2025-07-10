@@ -23,7 +23,7 @@ public class MovieMapper {
     }
 
     public static MovieDTO toDTO(OMBDSingleMovieResponse movieResponse) {
-        final var runtime = Integer.parseInt(movieResponse.Runtime().split(" ")[0]);
+        final var runtime = movieResponse.Runtime().equals("N/A") ? 0 : Integer.parseInt(movieResponse.Runtime().split(" ")[0]);
         return MovieDTO.builder()
                 .title(movieResponse.Title())
                 .year(movieResponse.Year())
