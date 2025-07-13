@@ -34,16 +34,16 @@ public class MovieController {
         return movieService.save(movie);
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Collection<MovieDTO> search(
             @RequestParam(required = false) String imbdId,
-            @RequestParam(required = false) String name) {
-        if (imbdId == null && name == null) {
+            @RequestParam(required = false) String title) {
+        if (imbdId == null && title == null) {
             return movieService.findAll();
         }
         final var searchDTO = MovieSearch.builder()
                 .imbdId(imbdId)
-                .name(name)
+                .title(title)
                 .build();
         return movieService.search(searchDTO);
     }

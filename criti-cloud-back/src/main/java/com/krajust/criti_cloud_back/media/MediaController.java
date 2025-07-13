@@ -36,10 +36,14 @@ public class MediaController {
         return mediaService.save(media);
     }
 
+    //ToDo implement paging
     @GetMapping
     public List<MediaDTO> search(@RequestParam(required = false) MediaType type,
                                  @RequestParam(required = false, defaultValue = "false") Boolean external,
-                                 @RequestParam(required = false) String title) {
+                                 @RequestParam(required = false) String title,
+                                 @RequestParam(required = false, defaultValue = "1") int page,
+                                 @RequestParam(required = false, defaultValue = "10") int size
+    ) {
         if (type == null && !external  && title == null) {
             return mediaService.findAllMedia();
         }
@@ -47,6 +51,8 @@ public class MediaController {
                 .type(type)
                 .external(external)
                 .title(title)
+                .page(page)
+                .size(size)
                 .build();
         return searchService.search(searchDTO);
     }
