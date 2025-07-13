@@ -1,5 +1,5 @@
 package com.krajust.criti_cloud_back.common.exception;
 
 public enum EntityNotExistsIdType {
-    ID, MOVIE_IMBD_ID
+    ID, MOVIE_IMBD_ID, GAME_IGDB_ID
 }

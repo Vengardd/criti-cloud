@@ -1,5 +1,6 @@
 package com.krajust.criti_cloud_back.configuration;
 
+import com.krajust.criti_cloud_back.integration.igdb.IGDBGameProvider;
 import com.krajust.criti_cloud_back.integration.ombd.OMBDMovieProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,14 @@ public class BeansConfiguration {
             @Value("${integration.ombd.api-key}") String apiKey
     ) {
         return new OMBDMovieProvider(restTemplate, url, apiKey);
+    }
+
+    @Bean
+    public IGDBGameProvider igdbGameProvider(
+            @Value("${integration.igdb.client-id}") String clientId,
+            @Value("${integration.igdb.client-secret}") String apiKey
+    ) {
+        return new IGDBGameProvider(clientId, apiKey);
     }
 
     @Bean

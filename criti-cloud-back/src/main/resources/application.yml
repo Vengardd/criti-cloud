@@ -14,6 +14,9 @@ integration:
   ombd:
     url: http://www.omdbapi.com
     api-key: ${ombd.api-key}
+  igdb:
+    client-id: hfkz227pb7obhdzwfwauon13fuv1w7
+    client-secret: ${igdb.api-secret}
 logging:
   level:
     org:

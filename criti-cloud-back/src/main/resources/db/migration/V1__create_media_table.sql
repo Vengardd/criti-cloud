@@ -12,7 +12,7 @@ CREATE TABLE media
 
 ALTER TABLE media
 ADD CONSTRAINT media_type_enum_check
-CHECK (details_type in ('MOVIE', 'SERIES'));
+CHECK (details_type in ('MOVIE', 'SERIES', 'GAME'));
 
 CREATE INDEX media_details_id_idx
 ON media(details_id);

@@ -5,12 +5,12 @@ import com.krajust.criti_cloud_back.common.exception.EntityNotExistsIdType;
 import com.krajust.criti_cloud_back.media.DetailsType;
 import com.krajust.criti_cloud_back.media.MediaDTO;
 import com.krajust.criti_cloud_back.media.MediaService;
+import com.krajust.criti_cloud_back.media.ProviderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,22 +26,24 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
     private final MediaService mediaService;
-    private final MovieProviderService movieProviderService;
+    private final ProviderService<MovieDTO> movieProviderService;
 
-    public MovieService(MovieSpringRepository movieRepository, MediaService mediaService, MovieProviderService movieProviderService) {
+    public MovieService(MovieSpringRepository movieRepository, MediaService mediaService, ProviderService<MovieDTO> movieProviderService) {
         this.movieRepository = movieRepository;
         this.mediaService = mediaService;
         this.movieProviderService = movieProviderService;
     }
 
     public MovieDTO getById(UUID id) {
-        log.info("Searching movie by ID: {}", id);
         return toDTO(movieRepository.findById(id).orElseThrow(() -> new EntityNotExists(MOVIE, id)));
     }
 
-    public Collection<MovieDTO> search(MovieSearch searchDTO) {
-        if (searchDTO.imbdId() != null) {
-            return List.of(searchByIMBDId(searchDTO.imbdId()));
+    public List<MovieDTO> search(MovieSearch searchDTO) {
+        if (searchDTO.imbdId() != null || searchDTO.title() != null) {
+            if (searchDTO.imbdId() != null) {
+                return List.of(searchByIMBDId(searchDTO.imbdId()));
+            }
+            return movieRepository.findByTitleContains(searchDTO.title()).stream().map(MovieMapper::toDTO).toList();
         }
         log.warn("Searching movie by searchDTO: {} not supported.", searchDTO);
         return emptyList();
@@ -52,7 +54,7 @@ public class MovieService {
         if (movieLocally.isPresent()) {
             return toDTO(movieLocally.get());
         }
-        final var foundMovie = movieProviderService.getByImbdId(imbdId);
+        final var foundMovie = movieProviderService.findByProviderId(imbdId);
         if (foundMovie.isPresent()) {
             final var savedMovie = save(foundMovie.get());
             log.info("Saved new movie with ID: {} and imbdId: {}", savedMovie.id, savedMovie.imbdId);
@@ -74,6 +76,7 @@ public class MovieService {
                 .name(movieDTO.title)
                 .detailsType(DetailsType.MOVIE)
                 .detailsId(movieDTO.id)
+                .posterUrl(movieDTO.posterUrl)
                 .build();
     }
 

@@ -34,7 +34,7 @@ class OMBDMovieProviderTest implements MovieTestData {
                 .thenReturn(new ResponseEntity<>(new OMBDSingleMovieResponse(title, year, runtime + " Min", director, plot, imbdId, posterUrl), OK));
 
         // when
-        var movie = movieProvider.getByImbdId(imbdId);
+        var movie = movieProvider.findByProviderId(imbdId);
 
         // then
         assertThat(movie).isPresent().isEqualTo(
@@ -52,7 +52,7 @@ class OMBDMovieProviderTest implements MovieTestData {
                 .thenReturn(new ResponseEntity<>(null, NOT_FOUND));
 
         // when
-        var movie = movieProvider.getByImbdId(imbdId);
+        var movie = movieProvider.findByProviderId(imbdId);
 
         // then
         assertThat(movie).isEmpty();
@@ -66,7 +66,7 @@ class OMBDMovieProviderTest implements MovieTestData {
                 .thenReturn(new ResponseEntity<>(new OMBDMultiMovieResponse(List.of(singleShortMovie), 1, "True"), OK));
 
         // when
-        var movies = movieProvider.searchByTitle(title);
+        var movies = movieProvider.searchByTitle(title, 20, 1);
 
         // then
         assertThat(movies).hasSize(1).containsExactly(MediaDTO.builder()

@@ -4,13 +4,12 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.krajust.criti_cloud_back.media.MediaDTO;
 import com.krajust.criti_cloud_back.media.MediaMapper;
+import com.krajust.criti_cloud_back.media.ProviderService;
 import com.krajust.criti_cloud_back.movie.MovieDTO;
-import com.krajust.criti_cloud_back.movie.MovieProviderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +19,7 @@ import static com.krajust.criti_cloud_back.movie.MovieMapper.toDTO;
 import static java.util.Optional.empty;
 
 @Slf4j
-public class OMBDMovieProvider implements MovieProviderService {
+public class OMBDMovieProvider implements ProviderService<MovieDTO> {
 
     private final String OMBD_SINGLE_MOVIE_URL_TEMPLATE = "%s/?apiKey=%s&i=%s";
     private final String OMBD_MULTI_MOVIE_URL_TEMPLATE = "%s/?apiKey=%s&s=%s";
@@ -41,8 +40,8 @@ public class OMBDMovieProvider implements MovieProviderService {
     }
 
     @Override
-    public Optional<MovieDTO> getByImbdId(String imbdId) {
-        final var url = OMBD_SINGLE_MOVIE_URL_TEMPLATE.formatted(ombdUrl, ombdApiKey, imbdId);
+    public Optional<MovieDTO> findByProviderId(String providerId) {
+        final var url = OMBD_SINGLE_MOVIE_URL_TEMPLATE.formatted(ombdUrl, ombdApiKey, providerId);
         final var response = restTemplate.getForEntity(url, OMBDSingleMovieResponse.class);
         if (!response.getStatusCode().is2xxSuccessful()) {
             log.error("Failed to get movie from OMBD. Response: {}", response);
@@ -53,10 +52,11 @@ public class OMBDMovieProvider implements MovieProviderService {
         return Optional.of(movieDTO);
     }
 
+    //ToDo implement paging for movies
     @Override
-    public List<MediaDTO> searchByTitle(String title) {
+    public List<MediaDTO> searchByTitle(String title, int size, int page) {
         final var response = getMoviesFromOmbd(title);
-        return response.map(OMBDMultiMovieResponse::Search).orElse(List.of()).stream().toList().stream().map(MediaMapper::toDTO).toList();
+        return response.map(OMBDMultiMovieResponse::Search).orElse(List.of()).stream().toList().stream().map(MediaMapper::toDTO).limit(page).toList();
     }
 
     private Optional<OMBDMultiMovieResponse> getMoviesFromOmbd(String title) {

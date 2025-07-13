@@ -12,5 +12,7 @@ public interface MovieRepository {
 
     Optional<Movie> findByImbdId(String imbdId);
 
+    List<Movie> findByTitleContains(String title);
+
     List<Movie> findAll();
 }

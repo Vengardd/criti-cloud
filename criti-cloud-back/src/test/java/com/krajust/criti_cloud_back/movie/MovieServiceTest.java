@@ -3,6 +3,7 @@ package com.krajust.criti_cloud_back.movie;
 import com.krajust.criti_cloud_back.media.DetailsType;
 import com.krajust.criti_cloud_back.media.MediaDTO;
 import com.krajust.criti_cloud_back.media.MediaService;
+import com.krajust.criti_cloud_back.media.ProviderService;
 import org.junit.jupiter.api.Test;
 
 import static com.krajust.criti_cloud_back.movie.MovieMapper.toEntity;
@@ -15,7 +16,7 @@ class MovieServiceTest implements MovieTestData {
 
     private final MovieSpringRepository movieRepository = mock(MovieSpringRepository.class);
     private final MediaService mediaService = mock(MediaService.class);
-    private final MovieProviderService movieProviderService = mock(MovieProviderService.class);
+    private final ProviderService<MovieDTO> movieProviderService = mock(ProviderService.class);
 
     MovieService movieService = new MovieService(movieRepository, mediaService, movieProviderService);
 
