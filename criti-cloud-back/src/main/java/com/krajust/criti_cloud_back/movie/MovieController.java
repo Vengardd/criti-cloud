@@ -34,7 +34,7 @@ public class MovieController {
         return movieService.save(movie);
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public Collection<MovieDTO> search(
             @RequestParam(required = false) String imbdId,
             @RequestParam(required = false) String title) {

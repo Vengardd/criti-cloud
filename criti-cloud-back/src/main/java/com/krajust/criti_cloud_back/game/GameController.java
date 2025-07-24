@@ -28,7 +28,7 @@ public class GameController {
         return gameService.getById(id);
     }
 
-    @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
     public Collection<GameDTO> search(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String igdbId
