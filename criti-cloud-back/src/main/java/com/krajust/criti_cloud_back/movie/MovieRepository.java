@@ -10,6 +10,8 @@ public interface MovieRepository {
 
     Movie save(Movie entity);
 
+    Movie saveAndFlush(Movie entity);
+
     Optional<Movie> findByImbdId(String imbdId);
 
     List<Movie> findByTitleContains(String title);

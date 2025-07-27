@@ -1,6 +1,7 @@
 package com.krajust.criti_cloud_back.media;
 
 import com.krajust.criti_cloud_back.common.exception.EntityNotExists;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import static com.krajust.criti_cloud_back.common.entity.EntityType.MEDIA;
 import static com.krajust.criti_cloud_back.media.MediaMapper.toDTO;
 import static com.krajust.criti_cloud_back.media.MediaMapper.toDTOs;
 import static com.krajust.criti_cloud_back.media.MediaMapper.toEntity;
+import static java.util.UUID.randomUUID;
 
 @Service
 public class MediaService {
@@ -27,7 +29,11 @@ public class MediaService {
         return toDTOs(mediaRepository.findAll());
     }
 
+    @Transactional
     public MediaDTO save(MediaDTO mediaDTO) {
+        if (mediaDTO.id == null) {
+            mediaDTO.id = randomUUID();
+        }
         return toDTO(mediaRepository.save(toEntity(mediaDTO)));
     }
 

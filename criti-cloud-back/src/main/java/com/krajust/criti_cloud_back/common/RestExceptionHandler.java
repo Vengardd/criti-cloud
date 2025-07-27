@@ -1,5 +1,6 @@
 package com.krajust.criti_cloud_back.common;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,10 @@ public class RestExceptionHandler {
     @ExceptionHandler(Exception.class)
     public String handleAllException(Exception e) {
         log.error("Error occurred", e);
+        log.error(ExceptionUtils.getStackTrace(e));
         return e.getMessage();
     }
+
+
 
 }

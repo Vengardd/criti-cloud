@@ -10,6 +10,8 @@ public interface GameRepository {
 
     Game save(Game game);
 
+    Game saveAndFlush(Game game);
+
     Optional<Game> findByIgdbId(String igdbId);
 
     List<Game> findByTitleContains(String title);

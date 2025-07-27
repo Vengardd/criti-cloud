@@ -1,6 +1,5 @@
 package com.krajust.criti_cloud_back.game;
 
-import com.krajust.criti_cloud_back.movie.MovieSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

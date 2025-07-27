@@ -2,6 +2,7 @@ package com.krajust.criti_cloud_back.rating;
 
 import com.krajust.criti_cloud_back.common.exception.EntityNotExists;
 import com.krajust.criti_cloud_back.media.MediaService;
+import com.krajust.criti_cloud_back.user.UserDTO;
 import com.krajust.criti_cloud_back.user.UserService;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +37,22 @@ public class RatingService {
         return toDTO(ratingRepository.findById(id).orElseThrow(() -> new EntityNotExists(RATING, id)));
     }
 
-    public RatingDTO save(RatingDTO ratingDTO) {
-        validateRating(ratingDTO);
-        return toDTO(ratingRepository.save(toEntity(ratingDTO)));
+    public RatingDTO save(RatingController.NewRatingRequest newRatingRequest, UserDTO userDTO) {
+        final var media = mediaService.findById(newRatingRequest.mediaId());
+        if (media.isEmpty()) {
+            throw new EntityNotExists(MEDIA, newRatingRequest.mediaId());
+        }
+        final var user = userService.findById(userDTO.id);
+        if (user.isEmpty()) {
+            throw new EntityNotExists(USER, userDTO.id);
+        }
+        final var rating = RatingDTO.builder()
+                .media(media.get())
+                .user(user.get())
+                .rating(newRatingRequest.rating())
+                .source(newRatingRequest.source())
+                .build();
+        return toDTO(ratingRepository.save(toEntity(rating)));
     }
 
     public List<RatingDTO> search(RatingSearch search) {
@@ -49,14 +63,5 @@ public class RatingService {
             return toDTOs(ratingRepository.findAllByUserId(search.userId()));
         }
         throw new IllegalArgumentException("Search must have userId or mediaId");
-    }
-
-    private void validateRating(RatingDTO ratingDTO) {
-        if (mediaService.findById(ratingDTO.media.id).isEmpty()) {
-            throw new EntityNotExists(MEDIA, ratingDTO.media.id);
-        }
-        if (userService.findById(ratingDTO.user.id).isEmpty()) {
-            throw new EntityNotExists(USER, ratingDTO.user.id);
-        }
     }
 }

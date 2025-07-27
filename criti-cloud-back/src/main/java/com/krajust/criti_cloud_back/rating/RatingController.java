@@ -1,5 +1,8 @@
 package com.krajust.criti_cloud_back.rating;
 
+import com.krajust.criti_cloud_back.security.CustomUserDetails;
+import com.krajust.criti_cloud_back.user.UserMapper;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,8 +44,12 @@ public class RatingController {
     }
 
     @PostMapping
-    public RatingDTO addRating(@RequestBody RatingDTO ratingDTO) {
-        return ratingService.save(ratingDTO);
+    public RatingDTO addRating(@RequestBody NewRatingRequest ratingRequest, Authentication authentication) {
+        return ratingService.save(ratingRequest, UserMapper.fromPrincipal(authentication));
+    }
+
+    public record NewRatingRequest(UUID mediaId, BigDecimal rating, RatingSource source) {
+
     }
 
 }

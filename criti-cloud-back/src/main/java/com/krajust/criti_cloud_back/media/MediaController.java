@@ -44,7 +44,7 @@ public class MediaController {
                                  @RequestParam(required = false, defaultValue = "1") int page,
                                  @RequestParam(required = false, defaultValue = "10") int size
     ) {
-        if (type == null && !external  && title == null) {
+        if (type == null && !external && title == null) {
             return mediaService.findAllMedia();
         }
         final var searchDTO = SearchDTO.builder()
