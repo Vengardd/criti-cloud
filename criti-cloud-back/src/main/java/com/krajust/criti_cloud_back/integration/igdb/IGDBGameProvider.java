@@ -11,6 +11,7 @@ import com.krajust.criti_cloud_back.media.MediaDTO;
 import com.krajust.criti_cloud_back.media.ProviderService;
 import lombok.extern.slf4j.Slf4j;
 import proto.Cover;
+import proto.Game;
 
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,7 @@ public class IGDBGameProvider implements ProviderService<GameDTO> {
                     .fields("*")
                     .where("id = " + game.getCover().getId());
             final var cover = ProtoRequestKt.covers(wrapper, coverQuery).getFirst();
-            final var hdUrl = cover.getUrl().replace("t_thumb", "t_720p");
+            final var hdUrl = replaceUrlToHd(cover);
             return some(GameDTO.builder()
                     .title(game.getName())
                     .summary(game.getSummary())
@@ -63,14 +64,14 @@ public class IGDBGameProvider implements ProviderService<GameDTO> {
             final var query = new APICalypse()
                     .fields("*")
                     .limit(size)
-                    .offset(size * page)
+                    .offset(size * (page-1))
                     .search(title);
             final var games = ProtoRequestKt.games(wrapper, query);
             final var coversList = games.stream().map(game -> Long.toString(game.getCover().getId())).toList();
             final var covers = covers(size, page, coversList);
             return games.stream().map(game -> MediaDTO.builder()
                     .name(game.getName())
-                    .posterUrl(covers.stream().filter(cover -> cover.getId() == game.getCover().getId()).map(Cover::getUrl).findFirst().orElse(null))
+                    .posterUrl(posterUrlFromAllCovers(game, covers))
                     .detailsType(GAME)
                     .externalIdType(IGDB_ID)
                     .externalId(Long.toString(game.getId()))
@@ -81,18 +82,26 @@ public class IGDBGameProvider implements ProviderService<GameDTO> {
         }
     }
 
+    private String posterUrlFromAllCovers(Game game, List<Cover> covers) {
+        return covers.stream().filter(cover -> cover.getId() == game.getCover().getId()).map(this::replaceUrlToHd).findFirst().orElse(null);
+    }
+
     private List<Cover> covers(int size, int page, List<String> coversList) throws RequestException {
         try {
             final var coverQuery = new APICalypse()
                     .fields("*")
                     .limit(size)
-                    .offset(size * page)
+                    .offset(size * (page-1))
                     .where("id = (" + String.join(",", coversList) + ")");
             return ProtoRequestKt.covers(wrapper, coverQuery);
         } catch (RequestException e) {
             log.error("Failed to search for covers by ids: {}. Response: {}", coversList, e.getMessage(), e);
             return List.of();
         }
+    }
+
+    private String replaceUrlToHd(Cover cover) {
+        return cover.getUrl().replace("t_thumb", "t_720p");
     }
 
 }
