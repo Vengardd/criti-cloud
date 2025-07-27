@@ -45,11 +45,12 @@ public class IGDBGameProvider implements ProviderService<GameDTO> {
                     .fields("*")
                     .where("id = " + game.getCover().getId());
             final var cover = ProtoRequestKt.covers(wrapper, coverQuery).getFirst();
+            final var hdUrl = cover.getUrl().replace("t_thumb", "t_720p");
             return some(GameDTO.builder()
                     .title(game.getName())
                     .summary(game.getSummary())
                     .igdbId(Long.toString(game.getId()))
-                    .posterUrl(cover.getUrl())
+                    .posterUrl(hdUrl)
                     .build());
         } catch (RequestException e) {
             throw new RuntimeException(e);
