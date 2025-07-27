@@ -1,5 +1,6 @@
 package com.krajust.criti_cloud_back.game;
 
+import com.krajust.criti_cloud_back.common.entity.EntityExternalIdType;
 import com.krajust.criti_cloud_back.common.exception.EntityNotExists;
 import com.krajust.criti_cloud_back.common.exception.EntityNotExistsIdType;
 import com.krajust.criti_cloud_back.media.DetailsType;
@@ -16,6 +17,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import static com.krajust.criti_cloud_back.common.entity.EntityExternalIdType.IGDB_ID;
 import static com.krajust.criti_cloud_back.common.entity.EntityType.GAME;
 import static com.krajust.criti_cloud_back.game.GameMapper.toDTO;
 import static com.krajust.criti_cloud_back.game.GameMapper.toDTOs;
@@ -70,8 +72,8 @@ public class GameService {
     }
 
     @Transactional
-    private GameDTO save(GameDTO gameDTO) {
-        final var savedGame = toDTO(gameRepository.save(toEntity(gameDTO)));
+    protected GameDTO save(GameDTO gameDTO) {
+        final var savedGame = toDTO(gameRepository.saveAndFlush(toEntity(gameDTO)));
         final var mediaBasedOnMovie = createMediaFromGame(savedGame);
         final var media = mediaService.save(mediaBasedOnMovie);
         return savedGame;
@@ -79,10 +81,13 @@ public class GameService {
 
     private MediaDTO createMediaFromGame(GameDTO savedGame) {
         return MediaDTO.builder()
+                .id(savedGame.id)
                 .name(savedGame.title)
                 .detailsType(DetailsType.GAME)
                 .detailsId(savedGame.id)
                 .posterUrl(savedGame.posterUrl)
+                .externalId(savedGame.igdbId)
+                .externalIdType(IGDB_ID)
                 .build();
     }
 }
