@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+import static com.krajust.criti_cloud_back.common.entity.EntityExternalIdType.IMBD_ID;
 import static com.krajust.criti_cloud_back.common.entity.EntityType.MOVIE;
 import static com.krajust.criti_cloud_back.movie.MovieMapper.toDTO;
 import static com.krajust.criti_cloud_back.movie.MovieMapper.toEntity;
@@ -73,10 +74,13 @@ public class MovieService {
 
     private MediaDTO createMediaFromMovie(MovieDTO movieDTO) {
         return MediaDTO.builder()
+                .id(movieDTO.id)
                 .name(movieDTO.title)
                 .detailsType(DetailsType.MOVIE)
                 .detailsId(movieDTO.id)
                 .posterUrl(movieDTO.posterUrl)
+                .externalId(movieDTO.imbdId)
+                .externalIdType(IMBD_ID)
                 .build();
     }
 

@@ -10,6 +10,8 @@ public interface MediaRepository {
 
     Media save(Media media);
 
+    Media saveAndFlush(Media entity);
+
     Optional<Media> findById(UUID id);
 
     List<Media> findAllByNameContains(String name);

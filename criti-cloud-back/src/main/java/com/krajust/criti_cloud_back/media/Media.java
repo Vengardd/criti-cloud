@@ -25,8 +25,6 @@ import java.util.UUID;
 public class Media {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     public UUID id;
     public String name;
     public String posterUrl;
