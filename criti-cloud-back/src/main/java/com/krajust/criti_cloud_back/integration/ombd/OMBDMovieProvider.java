@@ -56,7 +56,7 @@ public class OMBDMovieProvider implements ProviderService<MovieDTO> {
     @Override
     public List<MediaDTO> searchByTitle(String title, int size, int page) {
         final var response = getMoviesFromOmbd(title);
-        return response.map(OMBDMultiMovieResponse::Search).orElse(List.of()).stream().toList().stream().map(MediaMapper::toDTO).limit(page).toList();
+        return response.map(OMBDMultiMovieResponse::Search).orElse(List.of()).stream().toList().stream().map(MediaMapper::toDTO).limit(size).toList();
     }
 
     private Optional<OMBDMultiMovieResponse> getMoviesFromOmbd(String title) {
