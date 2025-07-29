@@ -22,7 +22,7 @@ import static java.util.Optional.empty;
 public class OMBDMovieProvider implements ProviderService<MovieDTO> {
 
     private final String OMBD_SINGLE_MOVIE_URL_TEMPLATE = "%s/?apiKey=%s&i=%s";
-    private final String OMBD_MULTI_MOVIE_URL_TEMPLATE = "%s/?apiKey=%s&s=%s";
+    private final String OMBD_MULTI_MOVIE_URL_TEMPLATE = "%s/?apiKey=%s&s=%s&type=movie";
 
     private final Cache<String, OMBDMultiMovieResponse> ombdMultiMovieResponseCache = Caffeine.newBuilder()
             .expireAfterWrite(Duration.ofDays(7))
