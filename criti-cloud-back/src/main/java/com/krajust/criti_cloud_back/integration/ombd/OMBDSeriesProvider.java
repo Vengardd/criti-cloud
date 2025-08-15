@@ -2,32 +2,30 @@ package com.krajust.criti_cloud_back.integration.ombd;
 
 import com.krajust.criti_cloud_back.media.MediaDTO;
 import com.krajust.criti_cloud_back.media.ProviderService;
-import com.krajust.criti_cloud_back.movie.MovieDTO;
-import lombok.extern.slf4j.Slf4j;
+import com.krajust.criti_cloud_back.series.SeriesDTO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
-@Slf4j
 @Component
-public class OMBDMovieProvider implements ProviderService<MovieDTO> {
+public class OMBDSeriesProvider implements ProviderService<SeriesDTO> {
 
-    private final static String MOVIE_TYPE = "movie";
+    private final static String SERIES_TYPE = "series";
 
     private final OMBDProvider ombdProvider;
 
-    public OMBDMovieProvider(OMBDProvider ombdProvider) {
+    public OMBDSeriesProvider(OMBDProvider ombdProvider) {
         this.ombdProvider = ombdProvider;
     }
 
     @Override
-    public Optional<MovieDTO> findByProviderId(String imbdId) {
-        return ombdProvider.findMovieByProviderId(imbdId);
+    public Optional<SeriesDTO> findByProviderId(String imbdId) {
+        return ombdProvider.findSeriesByProviderId(imbdId);
     }
 
     @Override
     public List<MediaDTO> searchByTitle(String title, int page, int size) {
-        return ombdProvider.searchByTitle(title, MOVIE_TYPE, page, size);
+        return ombdProvider.searchByTitle(title, SERIES_TYPE, size, page);
     }
 }

@@ -4,6 +4,8 @@ import com.krajust.criti_cloud_back.game.GameDTO;
 import com.krajust.criti_cloud_back.integration.ombd.OMBDSingleShortMovieResponse;
 import com.krajust.criti_cloud_back.movie.MovieDTO;
 import com.krajust.criti_cloud_back.movie.MovieMapper;
+import com.krajust.criti_cloud_back.series.SeriesDTO;
+import com.krajust.criti_cloud_back.series.SeriesMapper;
 
 import java.util.Collection;
 import java.util.List;
@@ -29,11 +31,11 @@ public class MediaMapper {
         return mediaDTOS.stream().map(MediaMapper::toEntity).toList();
     }
 
-    public static MediaDTO toDTO(OMBDSingleShortMovieResponse movieResponse) {
+    public static MediaDTO toDTO(OMBDSingleShortMovieResponse movieResponse, DetailsType detailsType) {
         return MediaDTO.builder()
                 .name(movieResponse.Title())
                 .posterUrl(movieResponse.Poster())
-                .detailsType(DetailsType.MOVIE)
+                .detailsType(detailsType)
                 .externalIdType(IMBD_ID)
                 .externalId(movieResponse.imdbID())
                 .build();
@@ -70,4 +72,9 @@ public class MediaMapper {
                 .externalIdType(IGDB_ID)
                 .build();
     }
+
+    public static List<MediaDTO> toDTOsFromSeries(List<SeriesDTO> series) {
+        return series.stream().map(SeriesMapper::toDTO).toList();
+    }
+
 }

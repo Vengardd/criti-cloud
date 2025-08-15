@@ -29,11 +29,6 @@ public class MovieController {
         return movieService.getById(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public MovieDTO addMovie(@RequestBody MovieDTO movie) {
-        return movieService.save(movie);
-    }
-
     @GetMapping
     public Collection<MovieDTO> search(
             @RequestParam(required = false) String imbdId,

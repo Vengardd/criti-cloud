@@ -4,6 +4,7 @@ public enum EntityType {
 
     MEDIA,
     MOVIE,
+    SERIES,
     USER,
     RATING,
     GAME
