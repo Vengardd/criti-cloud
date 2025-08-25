@@ -27,4 +27,4 @@ COPY --from=build /app/build/libs/*.jar /app/app.jar
 
 
 #Entry Point: Defines the command to run when the container starts. It runs the #Java application using the JAR file.
-ENTRYPOINT ["java", "-XX:+UseSerialGC", "-Xss512k", "-XX:MaxRAM=72m" ,"-Xmx256m", "-Xms128m", "-XX:MaxMetaspaceSize=128m","-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-XX:+UseSerialGC", "-Xss512k", "-XX:MaxRAM=72m" ,"-Xmx128m", "-Xms64m", "-XX:MaxMetaspaceSize=128m","-jar", "/app/app.jar"]

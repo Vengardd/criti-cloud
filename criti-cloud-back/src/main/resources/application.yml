@@ -12,6 +12,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  aot:
+    enabled: true
 integration:
   ombd:
     url: http://www.omdbapi.com
