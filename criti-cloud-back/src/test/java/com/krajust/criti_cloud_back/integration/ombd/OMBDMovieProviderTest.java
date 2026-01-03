@@ -20,9 +20,12 @@ import static org.springframework.http.HttpStatus.OK;
 class OMBDMovieProviderTest implements MovieTestData {
 
     private RestTemplate restTemplate = mock(RestTemplate.class);
+
     private String ombdUrl = "OMBD_URL";
     private String ombdApiKey = "OMBD_API_KEY";
-    private OMBDMovieProvider movieProvider = new OMBDMovieProvider(restTemplate, ombdUrl, ombdApiKey);
+
+    private OMBDProvider ombdProvider = new OMBDProvider(restTemplate, ombdUrl, ombdApiKey);
+    private OMBDMovieProvider movieProvider = new OMBDMovieProvider(ombdProvider);
 
     private String imbdId = "tt9243804";
     private String title = "Green";
@@ -62,7 +65,8 @@ class OMBDMovieProviderTest implements MovieTestData {
     void fetches_all_by_name() {
         // given
         var singleShortMovie = new OMBDSingleShortMovieResponse(title, Integer.toString(year), imbdId, "movie", posterUrl);
-        when(restTemplate.getForEntity(ombdUrl + "/?apiKey=" + ombdApiKey + "&s=" + title, OMBDMultiMovieResponse.class))
+        var url = ombdUrl + "/?apiKey=" + ombdApiKey + "&s=" + title + "&type=movie";
+        when(restTemplate.getForEntity(url, OMBDMultiMovieResponse.class))
                 .thenReturn(new ResponseEntity<>(new OMBDMultiMovieResponse(List.of(singleShortMovie), 1, "True"), OK));
 
         // when

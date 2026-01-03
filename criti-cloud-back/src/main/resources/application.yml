@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: criti-cloud-back
+  main:
+    lazy-initialization: true
   datasource:
     username: postgres
     password: postgres
@@ -10,6 +12,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+      cache:
+        use-second-level-cache: false
 integration:
   ombd:
     url: http://www.omdbapi.com
