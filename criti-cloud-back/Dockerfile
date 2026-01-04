@@ -1,30 +1,39 @@
-#Base Image: Uses the official Gradle image with Gradle 8.7 and JDK 17.
-#Alias: Names this stage build for use in multi-stage builds.
-FROM gradle:8.8-jdk21 AS build
+# =========================
+# Stage 1: Build native image
+# =========================
+# Use GraalVM image with native-image already installed
+FROM ghcr.io/graalvm/native-image-community:21 AS builder
 
-#Working Directory: Sets the working directory inside the container to /app.
+# Set working directory
 WORKDIR /app
 
-#Copy Build Scripts: Copies the build.gradle and settings.gradle files from the host #machine to the container.
-COPY build.gradle .
-COPY settings.gradle .
+# Copy project files
+COPY . .
 
-#Copy Source Code: Copies the source code from the host machine to the #container's /app/src directory.
-COPY src ./src
+# Install findutils if needed by Gradle scripts
+RUN microdnf install findutils
 
-#Build Application: Runs the gradle bootJar command to build the Spring Boot #application and generate a JAR file. This command compiles the code and #packages it into a JAR file located in the build/libs directory.
-RUN gradle bootJar
+# Build native image using Gradle
+RUN ./gradlew clean nativeCompile
 
-#Base Image: Uses the official OpenJDK 17 image for the runtime environment.
-#Alias: Names this stage runtime.
-FROM openjdk:21 AS runtime
+# =========================
+# Stage 2: Minimal runtime image
+# =========================
+FROM debian:bookworm-slim
 
-#Working Directory: Sets the working directory inside the container to /app.
 WORKDIR /app
 
-#Copy Artifact: Copies the JAR file generated in the build stage from /app/build/libs #to the runtime stage's /app directory and renames it to app.jar.
-COPY --from=build /app/build/libs/*.jar /app/app.jar
+# Install required libraries for native-image binary
+RUN apt-get update && apt-get install -y \
+    libz1 \
+    libstdc++6 \
+    && rm -rf /var/lib/apt/lists/*
 
+# Copy native binary
+COPY --from=builder /app/build/native/nativeCompile/app /app/app
 
-#Entry Point: Defines the command to run when the container starts. It runs the #Java application using the JAR file.
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Expose HTTP port
+EXPOSE 8080
+
+# Run native executable
+ENTRYPOINT ["/app/app"]
