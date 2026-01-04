@@ -12,6 +12,21 @@ version = '0.0.1-SNAPSHOT'
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
+		vendor = JvmVendorSpec.GRAAL_VM
+	}
+}
+
+graalvmNative {
+	binaries {
+		main {
+			imageName = 'app'
+			buildArgs.addAll([
+					"--enable-https",
+					"--enable-all-security-services",
+					"--enable-url-protocols=https",
+					"--enable-all-security-services"
+			])
+		}
 	}
 }
 
