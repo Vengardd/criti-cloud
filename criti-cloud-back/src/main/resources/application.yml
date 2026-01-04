@@ -10,6 +10,10 @@ spring:
     password: postgres
     url: jdbc:postgresql://localhost:5499/postgres
   jpa:
+    properties:
+      hibernate:
+              bytecode:
+                provider: none
     hibernate:
       ddl-auto: validate
       cache:
@@ -39,3 +43,4 @@ application:
     jwt:
       expiration: 86400000
       secret-key: ${jwt.secret-key}
+

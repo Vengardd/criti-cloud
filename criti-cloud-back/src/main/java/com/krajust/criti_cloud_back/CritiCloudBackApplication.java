@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CritiCloudBackApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
+        System.setProperty("spring.jpa.properties.hibernate.bytecode.provider", "none");
+        System.setProperty("hibernate.bytecode.provider", "none");
         SpringApplication.run(CritiCloudBackApplication.class, args);
     }
 
