@@ -17,7 +17,7 @@ RUN gradle bootJar
 
 #Base Image: Uses the official OpenJDK 17 image for the runtime environment.
 #Alias: Names this stage runtime.
-FROM openjdk:21 AS runtime
+FROM eclipse-temurin:21 AS runtime
 
 #Working Directory: Sets the working directory inside the container to /app.
 WORKDIR /app
